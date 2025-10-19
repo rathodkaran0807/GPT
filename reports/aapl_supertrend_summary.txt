@@ -1,0 +1,11 @@
+Supertrend Backtest Summary
+
+Data file: BATS_AAPL, 5.csv
+Period: 10
+Multiplier: 1.5
+Initial capital: $ 1,000.00
+Final capital:   $ 1,023.22
+Net profit:      $ 23.22
+Return:          2.32%
+Buy & Hold:      12.53%
+Total trades:    1362

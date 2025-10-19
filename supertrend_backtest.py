@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+from pathlib import Path
 from dataclasses import dataclass
 from typing import List, Sequence
 
@@ -254,6 +255,10 @@ def parse_args() -> argparse.Namespace:
         default=1000.0,
         help="Initial capital for the backtest (default: 1000)",
     )
+    parser.add_argument(
+        "--output",
+        help="Optional path to write the textual summary results",
+    )
     return parser.parse_args()
 
 
@@ -274,16 +279,28 @@ def main() -> None:
     )
     result = run_backtest(supertrend_points, args.capital)
 
-    print("Supertrend Backtest Summary\n")
-    print(f"Data file: {args.data}")
-    print(f"Period: {args.period}")
-    print(f"Multiplier: {args.multiplier}")
-    print(f"Initial capital: {format_currency(result.initial_capital)}")
-    print(f"Final capital:   {format_currency(result.final_capital)}")
-    print(f"Net profit:      {format_currency(result.net_profit)}")
-    print(f"Return:          {result.net_return_pct:.2f}%")
-    print(f"Buy & Hold:      {result.buy_and_hold_return_pct:.2f}%")
-    print(f"Total trades:    {result.total_trades}")
+    summary_lines = [
+        "Supertrend Backtest Summary\n",
+        f"Data file: {args.data}",
+        f"Period: {args.period}",
+        f"Multiplier: {args.multiplier}",
+        f"Initial capital: {format_currency(result.initial_capital)}",
+        f"Final capital:   {format_currency(result.final_capital)}",
+        f"Net profit:      {format_currency(result.net_profit)}",
+        f"Return:          {result.net_return_pct:.2f}%",
+        f"Buy & Hold:      {result.buy_and_hold_return_pct:.2f}%",
+        f"Total trades:    {result.total_trades}",
+    ]
+
+    for line in summary_lines:
+        print(line)
+
+    if args.output:
+        output_path = Path(args.output)
+        if output_path.parent and not output_path.parent.exists():
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+        with output_path.open("w", encoding="utf-8") as outfile:
+            outfile.write("\n".join(summary_lines) + "\n")
 
 
 if __name__ == "__main__":
