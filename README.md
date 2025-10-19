@@ -37,3 +37,15 @@ python supertrend_backtest.py --data 'BATS_CSCO, 5.csv'
 
 Override the Supertrend configuration or capital by providing the `--period`,
 `--multiplier`, or `--capital` flags.
+
+## Machine Learning Pattern Discovery
+
+Train a lightweight logistic regression model to uncover directional patterns
+from engineered OHLC features:
+
+```bash
+python machine_learning_patterns.py --data 'BATS_CSCO, 5.csv'
+```
+
+Adjust the training split, learning rate, or number of optimization iterations
+with `--train-ratio`, `--learning-rate`, and `--iterations` respectively.
